@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HealthSync | Doctors</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1" rel="stylesheet"/>
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #101419; color: #e0e2ea; }
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  </style>
+</head>
+<body class="bg-[#101419] text-[#e0e2ea]">
+  <aside class="fixed left-0 top-0 h-full w-64 z-50 bg-[#0a0e13] flex flex-col py-8">
+    <div class="px-8 mb-10 flex items-center gap-3">
+      <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-[#98d6ff] to-[#3abeff] flex items-center justify-center">
+        <span class="material-symbols-outlined text-[#00344b]" style="font-variation-settings: 'FILL' 1;">medical_services</span>
+      </div>
+      <div>
+        <h1 class="text-lg font-black tracking-tight">HealthSync</h1>
+        <p class="uppercase tracking-[0.08em] text-[10px] text-[#bdc8d1]">Clinical Portal</p>
+      </div>
+    </div>
+    <nav class="flex-1 px-4 space-y-1 uppercase tracking-[0.05em] text-[12px]">
+      <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-[#bdc8d1] hover:bg-[#181c21]" href="#"><span class="material-symbols-outlined">dashboard</span>Dashboard</a>
+      <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-[#bdc8d1] hover:bg-[#181c21]" href="#"><span class="material-symbols-outlined">group</span>Patients</a>
+      <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-[#3abeff] bg-[#1c2025] border-r-2 border-[#3abeff]" href="#"><span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">medical_services</span>Doctors</a>
+      <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-[#bdc8d1] hover:bg-[#181c21]" href="#"><span class="material-symbols-outlined">hub</span>Mappings</a>
+    </nav>
+    <div class="px-4 space-y-1 uppercase tracking-[0.05em] text-[12px]">
+      <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-[#bdc8d1] hover:bg-[#181c21]" href="#"><span class="material-symbols-outlined">help</span>Support</a>
+      <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-[#bdc8d1] hover:bg-[#181c21]" href="#"><span class="material-symbols-outlined">logout</span>Logout</a>
+    </div>
+  </aside>
+
+  <main class="ml-64 p-8 min-h-screen">
+    {% if ui_message %}
+    <div class="mb-6 rounded-xl border px-4 py-3 text-sm {% if ui_status == 'success' %}border-[#98d6ff]/40 bg-[#98d6ff]/10 text-[#98d6ff]{% else %}border-[#ffb4ab]/40 bg-[#ffb4ab]/10 text-[#ffb4ab]{% endif %}">
+      {{ ui_message }}
+    </div>
+    {% endif %}
+
+    {% if ui_user.role == 'doctor' %}
+      <div class="flex justify-between items-end gap-4 mb-8">
+        <div>
+          <p class="text-xs uppercase tracking-[0.1em] text-[#98d6ff]">Doctor Workspace</p>
+          <h2 class="text-4xl font-bold">Doctor Dashboard</h2>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <div class="bg-[#1c2025] p-5 rounded-xl border border-[#3e4850]/30">
+          <p class="text-[11px] uppercase tracking-widest text-[#bdc8d1]">Specialization</p>
+          <p class="text-2xl font-bold mt-2">{{ doctor_profile.specialization }}</p>
+        </div>
+        <div class="bg-[#1c2025] p-5 rounded-xl border border-[#3e4850]/30">
+          <p class="text-[11px] uppercase tracking-widest text-[#bdc8d1]">Hospital</p>
+          <p class="text-2xl font-bold mt-2">{{ doctor_profile.hospital|default:'Unassigned' }}</p>
+        </div>
+        <div class="bg-[#1c2025] p-5 rounded-xl border border-[#3e4850]/30">
+          <p class="text-[11px] uppercase tracking-widest text-[#bdc8d1]">Assigned Patients</p>
+          <p class="text-2xl font-bold mt-2">{{ assigned_patients_count }}</p>
+        </div>
+        <div class="bg-[#1c2025] p-5 rounded-xl border border-[#3e4850]/30">
+          <p class="text-[11px] uppercase tracking-widest text-[#bdc8d1]">Scheduled Slots</p>
+          <p class="text-2xl font-bold mt-2">{{ scheduled_slots_count }}</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+        <div class="xl:col-span-2 bg-[#1c2025] rounded-xl overflow-hidden border border-[#3e4850]/30">
+          <div class="p-5 border-b border-[#3e4850]/20">
+            <h3 class="text-lg font-bold">My Assigned Patients</h3>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left">
+              <thead class="bg-[#181c21] text-[#bdc8d1] text-[10px] uppercase tracking-widest">
+                <tr>
+                  <th class="px-5 py-3">Patient</th>
+                  <th class="px-5 py-3">Age</th>
+                  <th class="px-5 py-3">Gender</th>
+                  <th class="px-5 py-3">Assigned</th>
+                  <th class="px-5 py-3">Time Slot</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-[#3e4850]/20">
+                {% for mapping in assigned_mappings %}
+                <tr>
+                  <td class="px-5 py-4 font-semibold">{{ mapping.patient.name }}</td>
+                  <td class="px-5 py-4">{{ mapping.patient.age }}</td>
+                  <td class="px-5 py-4">{{ mapping.patient.get_gender_display }}</td>
+                  <td class="px-5 py-4 text-[#bdc8d1]">{{ mapping.assigned_at|date:'M d, Y' }}</td>
+                  <td class="px-5 py-4 text-[#98d6ff]">
+                    {% if mapping.slot_start %}
+                      {{ mapping.slot_start|date:'M d, Y H:i' }}
+                      {% if mapping.slot_end %}- {{ mapping.slot_end|date:'H:i' }}{% endif %}
+                    {% else %}
+                      <span class="text-[#bdc8d1]">Not scheduled</span>
+                    {% endif %}
+                  </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="5" class="px-5 py-8 text-center text-[#bdc8d1]">No patients assigned yet.</td></tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="bg-[#1c2025] rounded-xl p-6 border border-[#3e4850]/30">
+          <h3 class="text-lg font-bold mb-4">Next Slot</h3>
+          {% if next_slot %}
+            <p class="text-sm text-[#bdc8d1]">Patient</p>
+            <p class="font-semibold mb-2">{{ next_slot.patient.name }}</p>
+            <p class="text-sm text-[#bdc8d1]">Start</p>
+            <p class="font-semibold mb-2">{{ next_slot.slot_start|date:'M d, Y H:i' }}</p>
+            {% if next_slot.slot_end %}
+              <p class="text-sm text-[#bdc8d1]">End</p>
+              <p class="font-semibold">{{ next_slot.slot_end|date:'M d, Y H:i' }}</p>
+            {% endif %}
+          {% else %}
+            <p class="text-[#bdc8d1]">No upcoming time slot assigned.</p>
+          {% endif %}
+        </div>
+      </div>
+    {% else %}
+      <div class="flex flex-wrap justify-between items-end gap-4 mb-6">
+        <div>
+          <p class="text-xs uppercase tracking-[0.1em] text-[#98d6ff]">Clinical Directory</p>
+          <h2 class="text-4xl font-bold">Doctors</h2>
+        </div>
+        <button type="button" id="openDoctorModal" class="px-5 py-3 rounded-xl bg-gradient-to-r from-[#98d6ff] to-[#3abeff] text-[#00344b] font-bold flex items-center gap-2">
+          <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add</span>
+          Add Doctor
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 xl:grid-cols-4 gap-6">
+        <section class="xl:col-span-3 bg-[#1c2025] rounded-xl border border-[#3e4850]/20 overflow-hidden">
+          <form method="get" action="/ui/doctors/" class="p-5 border-b border-[#3e4850]/20 grid grid-cols-1 md:grid-cols-4 gap-3">
+            <input type="text" name="q" value="{{ active_filters.q }}" placeholder="Search by doctor name" class="md:col-span-2 bg-[#101419] border-none rounded-lg px-3 py-2 text-sm"/>
+            <input type="text" name="specialization" value="{{ active_filters.specialization }}" placeholder="Filter specialization" class="bg-[#101419] border-none rounded-lg px-3 py-2 text-sm"/>
+            <div class="flex gap-2">
+              <button type="submit" class="flex-1 bg-[#262a30] text-[#98d6ff] rounded-lg px-3 py-2 text-sm font-semibold">Apply</button>
+              <a href="/ui/doctors/" class="flex-1 text-center bg-[#181c21] text-[#bdc8d1] rounded-lg px-3 py-2 text-sm">Reset</a>
+            </div>
+          </form>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left">
+              <thead class="bg-[#181c21] text-[#bdc8d1] text-[11px] uppercase tracking-widest">
+                <tr>
+                  <th class="px-6 py-3">Name</th>
+                  <th class="px-6 py-3">Specialization</th>
+                  <th class="px-6 py-3">Hospital</th>
+                  <th class="px-6 py-3 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-[#3e4850]/20">
+                {% for doctor in all_doctors %}
+                <tr>
+                  <td class="px-6 py-4 font-semibold">{{ doctor.name }}</td>
+                  <td class="px-6 py-4">{{ doctor.specialization }}</td>
+                  <td class="px-6 py-4 text-[#bdc8d1]">{{ doctor.hospital|default:'Unassigned' }}</td>
+                  <td class="px-6 py-4">
+                    <div class="flex justify-end items-center gap-2">
+                      <a href="/ui/doctors/?doctor_id={{ doctor.id }}" class="px-3 py-1 rounded-lg bg-[#181c21] text-[#bdc8d1] text-xs">View</a>
+                      <a href="/ui/doctors/?open_modal=1&modal=edit&doctor_id={{ doctor.id }}" class="px-3 py-1 rounded-lg bg-[#262a30] text-[#98d6ff] text-xs">Edit</a>
+                      <form method="post" action="/ui/doctors/" onsubmit="return confirm('Remove this doctor?');">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="delete"/>
+                        <input type="hidden" name="doctor_id" value="{{ doctor.id }}"/>
+                        <button type="submit" class="px-3 py-1 rounded-lg bg-[#3a1f24] text-[#ffb4ab] text-xs">Delete</button>
+                      </form>
+                    </div>
+                  </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="4" class="px-6 py-10 text-center text-[#bdc8d1]">No doctors found.</td></tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <aside class="bg-[#1c2025] rounded-xl border border-[#3e4850]/20 p-5">
+          <p class="text-xs uppercase tracking-widest text-[#bdc8d1]">Total Doctors</p>
+          <p class="text-4xl font-black mt-2 mb-6">{{ total_doctors }}</p>
+          {% if selected_doctor %}
+          <div class="rounded-xl bg-[#181c21] p-4 border border-[#3e4850]/20">
+            <p class="text-xs uppercase tracking-widest text-[#bdc8d1] mb-2">Selected Doctor</p>
+            <p class="font-bold">{{ selected_doctor.name }}</p>
+            <p class="text-sm text-[#bdc8d1] mt-1">{{ selected_doctor.specialization }}</p>
+            <p class="text-sm text-[#bdc8d1]">{{ selected_doctor.hospital|default:'Unassigned' }}</p>
+          </div>
+          {% else %}
+          <p class="text-sm text-[#bdc8d1]">Select a doctor from the table to view details.</p>
+          {% endif %}
+        </aside>
+      </div>
+
+      <div id="doctorModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-[#101419]/70 backdrop-blur-sm">
+        <div class="w-full max-w-lg bg-[#1c2025] rounded-2xl border border-[#3e4850]/30 overflow-hidden">
+          <div class="px-6 py-4 border-b border-[#3e4850]/20 flex justify-between items-center">
+            <h3 class="text-xl font-bold">
+              {% if ui_modal_mode == 'edit' and selected_doctor %}
+                Edit Doctor
+              {% else %}
+                Add Doctor
+              {% endif %}
+            </h3>
+            <button type="button" id="closeDoctorModal" class="p-2 rounded-lg hover:bg-[#262a30]">
+              <span class="material-symbols-outlined">close</span>
+            </button>
+          </div>
+
+          <form method="post" action="/ui/doctors/" class="p-6 space-y-4">
+            {% csrf_token %}
+            {% if ui_modal_mode == 'edit' and selected_doctor %}
+              <input type="hidden" name="action" value="update"/>
+              <input type="hidden" name="doctor_id" value="{{ selected_doctor.id }}"/>
+            {% else %}
+              <input type="hidden" name="action" value="create"/>
+            {% endif %}
+
+            <div>
+              <label class="block text-xs uppercase tracking-widest text-[#bdc8d1] mb-1">Name</label>
+              <input name="name" required class="w-full bg-[#101419] border-none rounded-lg px-3 py-2" value="{% if ui_modal_mode == 'edit' and selected_doctor %}{{ selected_doctor.name }}{% endif %}"/>
+            </div>
+            <div>
+              <label class="block text-xs uppercase tracking-widest text-[#bdc8d1] mb-1">Specialization</label>
+              <input name="specialization" required class="w-full bg-[#101419] border-none rounded-lg px-3 py-2" value="{% if ui_modal_mode == 'edit' and selected_doctor %}{{ selected_doctor.specialization }}{% endif %}"/>
+            </div>
+            <div>
+              <label class="block text-xs uppercase tracking-widest text-[#bdc8d1] mb-1">Hospital</label>
+              <input name="hospital" class="w-full bg-[#101419] border-none rounded-lg px-3 py-2" value="{% if ui_modal_mode == 'edit' and selected_doctor %}{{ selected_doctor.hospital }}{% endif %}"/>
+            </div>
+
+            <div class="flex gap-3 pt-2">
+              <button type="button" id="cancelDoctorModal" class="flex-1 py-2 rounded-lg border border-[#3e4850]/30">Cancel</button>
+              <button type="submit" class="flex-1 py-2 rounded-lg bg-gradient-to-r from-[#98d6ff] to-[#3abeff] text-[#00344b] font-bold">
+                {% if ui_modal_mode == 'edit' and selected_doctor %}Save Changes{% else %}Add Doctor{% endif %}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <script>
+        (function () {
+          var modal = document.getElementById('doctorModal');
+          var openBtn = document.getElementById('openDoctorModal');
+          var closeBtn = document.getElementById('closeDoctorModal');
+          var cancelBtn = document.getElementById('cancelDoctorModal');
+
+          function openModal() {
+            if (!modal) return;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+          }
+
+          function closeModal() {
+            if (!modal) return;
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+          }
+
+          if (openBtn) openBtn.addEventListener('click', openModal);
+          if (closeBtn) closeBtn.addEventListener('click', closeModal);
+          if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
+          if (modal) {
+            modal.addEventListener('click', function (event) {
+              if (event.target === modal) closeModal();
+            });
+          }
+
+          if ('{{ ui_open_modal|yesno:"true,false" }}' === 'true') {
+            openModal();
+          }
+        })();
+      </script>
+    {% endif %}
+  </main>
+
+  {% include "ui/nav_routes_script.html" %}
+</body>
+</html>

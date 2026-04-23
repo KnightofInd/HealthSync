@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HealthSync | Patient-Doctor Mappings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary": "#c4c0ff",
+                    "surface-container-high": "#262a30",
+                    "primary": "#98d6ff",
+                    "tertiary-fixed-dim": "#ffb95c",
+                    "on-error": "#690005",
+                    "inverse-surface": "#e0e2ea",
+                    "on-primary": "#00344b",
+                    "secondary-container": "#3826cd",
+                    "error": "#ffb4ab",
+                    "primary-fixed": "#c6e7ff",
+                    "surface-bright": "#36393f",
+                    "tertiary": "#ffc479",
+                    "on-tertiary-fixed-variant": "#643e00",
+                    "on-secondary-fixed": "#100069",
+                    "on-tertiary-fixed": "#2a1700",
+                    "on-tertiary": "#462a00",
+                    "on-primary-fixed-variant": "#004c6b",
+                    "secondary-fixed": "#e3dfff",
+                    "on-surface-variant": "#bdc8d1",
+                    "on-secondary-fixed-variant": "#3622ca",
+                    "surface-container": "#1c2025",
+                    "on-secondary": "#2000a4",
+                    "background": "#101419",
+                    "surface": "#101419",
+                    "surface-container-lowest": "#0a0e13",
+                    "inverse-on-surface": "#2d3136",
+                    "inverse-primary": "#00658d",
+                    "on-primary-container": "#004a69",
+                    "on-secondary-container": "#b4b0ff",
+                    "tertiary-container": "#f3a225",
+                    "primary-fixed-dim": "#83cfff",
+                    "on-background": "#e0e2ea",
+                    "on-primary-fixed": "#001e2d",
+                    "surface-tint": "#83cfff",
+                    "primary-container": "#3abeff",
+                    "surface-dim": "#101419",
+                    "outline": "#87929b",
+                    "on-surface": "#e0e2ea",
+                    "on-tertiary-container": "#623d00",
+                    "error-container": "#93000a",
+                    "on-error-container": "#ffdad6",
+                    "outline-variant": "#3e4850",
+                    "surface-variant": "#31353b",
+                    "surface-container-highest": "#31353b",
+                    "surface-container-low": "#181c21",
+                    "tertiary-fixed": "#ffddb7",
+                    "secondary-fixed-dim": "#c4c0ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary-container/30">
+<!-- SideNavBar Shell -->
+<aside class="fixed left-0 top-0 h-full w-64 z-50 bg-[#0A0E13] flex flex-col py-8 font-['Inter'] uppercase tracking-[0.05em] text-[12px]">
+<div class="px-8 mb-10 flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-[20px]" style="font-variation-settings: 'FILL' 1;">hub</span>
+</div>
+<div>
+<h1 class="text-lg font-black text-[#E0E2EA] tracking-[-0.02em] normal-case">HealthSync</h1>
+<p class="text-[10px] text-on-surface-variant/60 tracking-widest">Clinical Portal</p>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-4 px-4 py-3 text-[#BDC8D1] hover:bg-[#181C21] hover:text-[#E0E2EA] transition-all duration-300 hover:translate-x-1 rounded-xl" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-4 px-4 py-3 text-[#BDC8D1] hover:bg-[#181C21] hover:text-[#E0E2EA] transition-all duration-300 hover:translate-x-1 rounded-xl" href="#">
+<span class="material-symbols-outlined">group</span>
+                Patients
+            </a>
+<a class="flex items-center gap-4 px-4 py-3 text-[#BDC8D1] hover:bg-[#181C21] hover:text-[#E0E2EA] transition-all duration-300 hover:translate-x-1 rounded-xl" href="#">
+<span class="material-symbols-outlined">medical_services</span>
+                Doctors
+            </a>
+<a class="flex items-center gap-4 px-4 py-3 text-[#3ABEFF] border-r-2 border-[#3ABEFF] bg-[#1C2025] transition-all duration-300 translate-x-1 rounded-xl" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">hub</span>
+                Mappings
+            </a>
+</nav>
+<div class="mt-auto px-4 space-y-4">
+<a class="w-full block text-center py-4 rounded-xl bg-gradient-to-r from-primary to-primary-container text-on-primary font-bold normal-case tracking-normal hover:opacity-90 active:scale-95 transition-all" href="/ui/mappings/?open_modal=1">
+                New Record
+            </a>
+<div class="space-y-1">
+<a class="flex items-center gap-4 px-4 py-3 text-[#BDC8D1] hover:bg-[#181C21] hover:text-[#E0E2EA] transition-all rounded-xl" href="mailto:support@healthsync.local">
+<span class="material-symbols-outlined">help</span>
+                    Support
+                </a>
+<a class="flex items-center gap-4 px-4 py-3 text-[#BDC8D1] hover:bg-[#181C21] hover:text-[#E0E2EA] transition-all rounded-xl" href="#">
+<span class="material-symbols-outlined text-error">logout</span>
+                    Logout
+                </a>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen">
+<!-- TopNavBar Shell -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 bg-[#101419]/80 backdrop-blur-xl h-16 px-8 flex justify-between items-center font-['Inter'] antialiased tracking-tight">
+<div class="flex items-center gap-4 flex-1 max-w-xl">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-full py-2 pl-10 pr-4 text-sm focus:ring-1 focus:ring-primary text-on-surface placeholder:text-on-surface-variant/40" placeholder="Search mappings, patients or clinical ID..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="h-8 w-8 rounded-full bg-surface-container-high overflow-hidden border border-outline-variant/30">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="professional portrait of a high-ranking clinical administrator in a dark uniform with soft blue lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzwYprhluirvcEJJSX9CkGUq-ep_ecHRd-4iR08QM7Faeaq-TK4LsSUtncNd2W7vVcvDYC_kwWFeJzyWChGLRGpdYcUIzLAarLO_f-J_2Eu48kil75-w8Nd2SUy_LyJuFgDyupeH0ioLM0lj_OgG2oULTqD9lVBblfWbE2JwPKcRUhA0L8DoxlDJRnVoGMREG2IdJ-UjfIVbMbFWETA8W551VOEJmBbSFP3kvj0ltoGhZHbr1drkbpFeQimzjKspiy_oOCQSnrls8"/>
+</div>
+</div>
+</header>
+<!-- Canvas Content -->
+<div class="pt-24 px-10 pb-12 max-w-7xl mx-auto">
+<!-- Page Header -->
+<div class="flex justify-between items-end mb-10">
+<div>
+<span class="text-[10px] font-bold text-primary tracking-[0.15em] uppercase mb-1 block">Clinical Administration</span>
+<h2 class="text-4xl font-bold text-on-surface tracking-tight">Patient Mappings</h2>
+</div>
+<button class="px-6 py-3 bg-surface-container-high text-primary hover:bg-surface-bright transition-all rounded-xl font-semibold flex items-center gap-2 group" id="openAssignModal" type="button">
+<span class="material-symbols-outlined text-xl group-hover:rotate-90 transition-transform">add</span>
+                    Assign Doctor
+                </button>
+</div>
+{% if not patients or not doctors %}
+<div class="mb-6 rounded-xl border border-tertiary/40 bg-tertiary/10 px-4 py-3 text-sm text-tertiary">
+{% if not patients %}
+No patients available for mapping. Add patients from the Patients page first.
+{% endif %}
+{% if not doctors %}
+{% if not patients %}<br/>{% endif %}
+No doctors available for mapping. Add doctors from the Doctors page first.
+{% endif %}
+</div>
+{% endif %}
+{% if ui_message %}
+<div class="mb-8 rounded-xl border px-4 py-3 text-sm {% if ui_status == 'success' %}border-primary/40 bg-primary/10 text-primary{% else %}border-error/40 bg-error/10 text-error{% endif %}">
+{{ ui_message }}
+</div>
+{% endif %}
+<!-- Bento Stats -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+<div class="bg-surface-container-low p-6 rounded-xl border-l-4 border-primary">
+<p class="text-[10px] text-on-surface-variant/60 font-black tracking-widest uppercase mb-2">Active Mappings</p>
+<div class="text-3xl font-bold text-on-surface">{{ total_mappings }}</div>
+<div class="text-[12px] text-primary mt-2">Live relationship entries</div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl">
+<p class="text-[10px] text-on-surface-variant/60 font-black tracking-widest uppercase mb-2">Unassigned Patients</p>
+<div class="text-3xl font-bold text-on-surface">{{ unassigned_patients }}</div>
+<div class="text-[12px] text-tertiary mt-2">Requires Attention</div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl">
+<p class="text-[10px] text-on-surface-variant/60 font-black tracking-widest uppercase mb-2">Avg. Load Factor</p>
+<div class="text-3xl font-bold text-on-surface">18.2</div>
+<div class="text-[12px] text-on-surface-variant/40 mt-2">Patients per doctor</div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl flex items-center justify-center relative overflow-hidden group">
+<img alt="Clinical background" class="absolute inset-0 w-full h-full object-cover opacity-20 grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="close up of microscopic biological structures with soft glowing blue neon lighting in a high-tech laboratory environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpGzd1Q4Yvd0GHVCWJNq2muMgdGMFu1qsMloPANnEZ_6aGV62qK8mIEJoo1HA5OQc-JFl-eTTXHm2qJcmB4WSqUfE35-p6rqVthgwGbD5ciG6KIE22L_VYz0ljrPbKH2b-VuGNgyyMroMgSPeXrUVl2VDoC93P8P4UXnApwdR7f19Hs8Sbzm-LsjfxzfQN8gMORlwu2IP1MYOuXBKLuoL84iiYlslep9yposQYmvjjtX3Ci52eZcto3gvLLdz1uxN-5KHcKO6movg"/>
+<div class="relative z-10 text-center">
+<span class="material-symbols-outlined text-primary text-3xl mb-1">verified_user</span>
+<p class="text-[10px] font-bold text-on-surface">System Synced</p>
+</div>
+</div>
+</div>
+<!-- Main Table Section -->
+<section class="bg-surface-container rounded-xl overflow-hidden shadow-2xl">
+<div class="p-6 flex items-center justify-between border-b border-outline-variant/10">
+<div class="flex items-center gap-4">
+<h3 class="font-bold text-lg">Relationship Registry</h3>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-surface-container-lowest text-on-surface-variant text-[10px] rounded-full font-bold">ALL DEPARTMENTS</span>
+</div>
+</div>
+<span class="text-xs text-on-surface-variant">Live view</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low/50">
+<th class="px-8 py-5 text-[10px] font-black text-on-surface-variant/60 tracking-widest uppercase">Patient Name</th>
+<th class="px-8 py-5 text-[10px] font-black text-on-surface-variant/60 tracking-widest uppercase">Clinical ID</th>
+<th class="px-8 py-5 text-[10px] font-black text-on-surface-variant/60 tracking-widest uppercase">Assigned Doctor</th>
+<th class="px-8 py-5 text-[10px] font-black text-on-surface-variant/60 tracking-widest uppercase">Department</th>
+<th class="px-8 py-5 text-[10px] font-black text-on-surface-variant/60 tracking-widest uppercase">Assigned Date</th>
+<th class="px-8 py-5 text-[10px] font-black text-on-surface-variant/60 tracking-widest uppercase">Time Slot</th>
+<th class="px-8 py-5 text-right"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/5">
+{% for mapping in mappings %}
+<tr class="group hover:bg-surface-container-high/40 transition-colors">
+<td class="px-8 py-6 font-bold text-on-surface">{{ mapping.patient.name }}</td>
+<td class="px-8 py-6 font-mono text-[13px] text-on-surface-variant">{{ mapping.patient.id|truncatechars:10 }}</td>
+<td class="px-8 py-6"><span class="font-medium">{{ mapping.doctor.name }}</span></td>
+<td class="px-8 py-6">
+<span class="text-[12px] px-2 py-1 rounded bg-primary/10 text-primary border border-primary/20">{{ mapping.doctor.specialization }}</span>
+</td>
+<td class="px-8 py-6 text-on-surface-variant text-sm">{{ mapping.assigned_at|date:"M d, Y" }}</td>
+<td class="px-8 py-6 text-on-surface-variant text-sm">
+{% if mapping.slot_start %}
+{{ mapping.slot_start|date:"M d, Y H:i" }}
+{% if mapping.slot_end %}
+- {{ mapping.slot_end|date:"H:i" }}
+{% endif %}
+{% else %}
+Not scheduled
+{% endif %}
+</td>
+<td class="px-8 py-6 text-right text-[11px] uppercase tracking-wider text-on-surface-variant">Active</td>
+</tr>
+{% empty %}
+<tr>
+<td class="px-8 py-8 text-center text-on-surface-variant" colspan="7">No mappings found yet.</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+<div class="p-6 bg-surface-container-lowest flex items-center justify-between">
+<span class="text-[12px] text-on-surface-variant">Showing {{ total_mappings }} total mappings</span>
+<span class="text-[12px] text-on-surface-variant">Single page</span>
+</div>
+</section>
+</div>
+</main>
+<!-- Assign Doctor Modal Overlay -->
+<div class="fixed inset-0 z-[100] hidden items-center justify-center bg-background/60 backdrop-blur-md" id="assignModal">
+<div class="bg-surface-container-high w-full max-w-lg rounded-2xl shadow-[0_20px_40px_rgba(0,0,0,0.4),0_0_0_1px_rgba(135,146,155,0.1)] overflow-hidden">
+<div class="p-8 border-b border-outline-variant/10 flex justify-between items-center">
+<div>
+<h4 class="text-xl font-bold">Assign Primary Clinician</h4>
+<p class="text-sm text-on-surface-variant">Establish a new patient-doctor relationship</p>
+</div>
+<button class="p-2 hover:bg-surface-bright rounded-full transition-colors" id="closeAssignModal" type="button">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<form action="/ui/mappings/" method="post">
+{% csrf_token %}
+<div class="p-8 space-y-6">
+<div class="space-y-2">
+<label class="text-[10px] font-black text-on-surface-variant/60 tracking-widest uppercase">Select Patient</label>
+<div class="relative">
+<select class="w-full bg-surface-container-lowest border-none rounded-xl py-3 pl-4 pr-10 text-on-surface focus:ring-1 focus:ring-primary appearance-none" name="patient_id" required>
+<option value="">Select patient...</option>
+{% for patient in patients %}
+<option value="{{ patient.id }}">{{ patient.name }} ({{ patient.id|truncatechars:10 }})</option>
+{% empty %}
+<option value="" disabled>No patients found</option>
+{% endfor %}
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">keyboard_arrow_down</span>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-[10px] font-black text-on-surface-variant/60 tracking-widest uppercase">Select Doctor</label>
+<div class="relative">
+<select class="w-full bg-surface-container-lowest border-none rounded-xl py-3 pl-4 pr-10 text-on-surface focus:ring-1 focus:ring-primary appearance-none" name="doctor_id" required>
+<option value="">Select doctor...</option>
+{% for doctor in doctors %}
+<option value="{{ doctor.id }}">{{ doctor.name }} ({{ doctor.specialization }})</option>
+{% empty %}
+<option value="" disabled>No doctors found</option>
+{% endfor %}
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">keyboard_arrow_down</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="space-y-2">
+<label class="text-[10px] font-black text-on-surface-variant/60 tracking-widest uppercase">Slot Start</label>
+<input class="w-full bg-surface-container-lowest border-none rounded-xl py-3 px-4 text-on-surface focus:ring-1 focus:ring-primary" name="slot_start" type="datetime-local"/>
+</div>
+<div class="space-y-2">
+<label class="text-[10px] font-black text-on-surface-variant/60 tracking-widest uppercase">Slot End</label>
+<input class="w-full bg-surface-container-lowest border-none rounded-xl py-3 px-4 text-on-surface focus:ring-1 focus:ring-primary" name="slot_end" type="datetime-local"/>
+</div>
+</div>
+<div class="flex items-start gap-3 p-4 bg-primary/5 rounded-xl border border-primary/10">
+<span class="material-symbols-outlined text-primary text-xl">info</span>
+<p class="text-[12px] text-on-surface-variant">Assigning a doctor will automatically sync medical records and notification streams between both parties.</p>
+</div>
+</div>
+<div class="p-8 bg-surface-container-highest/30 flex gap-4">
+<button class="flex-1 py-3 border border-outline-variant/30 hover:bg-surface-bright rounded-xl font-bold transition-all" id="cancelAssignModal" type="button">
+                    Cancel
+                </button>
+<button class="flex-1 py-3 bg-gradient-to-r from-primary to-primary-container text-on-primary rounded-xl font-bold hover:opacity-90 transition-all shadow-lg shadow-primary/20" type="submit">
+                    Confirm Mapping
+                </button>
+</div>
+</form>
+</div>
+</div>
+<script>
+(function () {
+    var modal = document.getElementById('assignModal');
+    var openBtn = document.getElementById('openAssignModal');
+    var closeBtn = document.getElementById('closeAssignModal');
+    var cancelBtn = document.getElementById('cancelAssignModal');
+
+    function openModal() {
+        if (!modal) return;
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+
+    function closeModal() {
+        if (!modal) return;
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+
+    if (openBtn) openBtn.addEventListener('click', openModal);
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
+    if (modal) {
+        modal.addEventListener('click', function (event) {
+            if (event.target === modal) closeModal();
+        });
+    }
+
+    var shouldOpen = '{{ ui_open_modal|yesno:"true,false" }}' === 'true';
+    if (shouldOpen) {
+        openModal();
+    }
+})();
+</script>
+{% include "ui/nav_routes_script.html" %}</body></html>

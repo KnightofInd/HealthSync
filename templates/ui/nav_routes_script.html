@@ -1,0 +1,31 @@
+<script>
+(function () {
+  var routeMap = {
+    dashboard: '/ui/dashboard/',
+    patients: '/ui/patients/',
+    doctors: '/ui/doctors/',
+    mappings: '/ui/mappings/',
+    logout: '/ui/logout/',
+    support: 'mailto:support@healthsync.local'
+  };
+
+  var navAnchors = document.querySelectorAll('aside a');
+  navAnchors.forEach(function (anchor) {
+    var existingHref = anchor.getAttribute('href') || '';
+    if (existingHref && existingHref !== '#') {
+      return;
+    }
+
+    var label = (anchor.textContent || '').trim().toLowerCase();
+    if (!label) {
+      return;
+    }
+
+    Object.keys(routeMap).forEach(function (key) {
+      if (label.indexOf(key) !== -1) {
+        anchor.setAttribute('href', routeMap[key]);
+      }
+    });
+  });
+})();
+</script>
